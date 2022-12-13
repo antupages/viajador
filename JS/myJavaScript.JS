@@ -1,9 +1,12 @@
 console.log("pagina inciada")
 
-let hotel = "";
-let precio = 0;
-let simple = 0;
-let doble = 0; 
+let hotel; 
+let precio; 
+let simple; 
+let doble; 
+
+let rooms;
+rooms = [];
 
 function calcu() {
 
@@ -14,7 +17,7 @@ function calcu() {
 	let doble = document.getElementById("dobleRoom").value;
 	console.log(hotel + " " + precio + " " + simple + " " + doble );
 
-	if ( simple =! 0 ) {
+	if ( simple =! "" ) {
 		console.log(simple)
 		let valorSimple = simple * ( precio * 1.3 );
 		console.log("el valor de las simples es: " + valorSimple );
@@ -27,11 +30,12 @@ function calcu() {
 		};
 	};
 
-	if ( doble =! 0 ) {
+	if ( doble =! "" ) {
 		let valorDoble = doble *  precio;
 		console.log("el valor de las dobles es: " + valorDoble );
 		for (let i = 0; i < doble ; i++) {
 			console.log(i);
+			document.getElementById("escri2").innerHTML = '<p>habitacion doble nro° D'+ i +' pertenece a  <input type="text" class="form-control" placeholder="nombre de recidentes" aria-label="nombre de recidentes" aria-describedby="basic-addon1" ></p>';
 		};
 	};
 };
