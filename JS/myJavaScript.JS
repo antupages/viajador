@@ -1,6 +1,3 @@
-$(document).ready( function() {
-
-
 let hotel; 
 let precio; 
 let simple; 
@@ -8,14 +5,23 @@ let doble;
 let usuario = "";
 let usuarioactivo = "";
 let contraseña = "";
-let rooms;
 let status;
+let datajson;
+let globalData;
+let ubicacion;
+let Numero;
+let valorSimple
+let valorDoble
 
+
+
+$(document).ready( function() {
 
 	console.log("pagina inciada")
 	$("#ingresar").on("click", ingreso );//hace vivible panel de acceso
 	$("#iUsu").on("click", reedUser );//valida si el usuraio es admin no valida realmente el usuario 
 	$("#calculate").on("click", calcu );//calcula el precio de las habitaciones 
+	$("#cargarhotelaJson").on("click", saveHotel );//guarda un hotel nuevo en json
 
 	//aca recupera los datos del local para el acceso
 	let dataAcceso = JSON.parse( localStorage.getItem("dataUser"))
@@ -24,20 +30,39 @@ let status;
 	$("#leeUsu").val(dataAcceso.user);
 	$("#leeCont").val(dataAcceso.pass)
 
-
-	fetch("./hotel.txt")
- 		.then(res => res.JSON())
- 		.then(JSON => console.log(res));
- 			//response.json())
-  		//.then(json => console.log(json));
+	//escritura de hoteles */
+	fetch("http://localhost:3000/hotles")
+ 		.then((response) => response.json())
+  		.then((data) => {
+  			datajson = data;
+  			console.log(datajson)
+  			data.forEach( (data) => {
+  				$("#selectorHto").append("<option value="+data.nombreHotel+">"+data.nombreHotel+"</option>");
+  				//console.log(data.nombre +" " +j);
+		})
+	});
 	
+  	
+	async function myFunction () {
+  		const res = await fetch("http://localhost:3000/hotles")
+  		const data = await res.json()
+  		globalData = data
+	}
+	
+	myFunction()
+
+
 
 
 });
 
 
+  			
 
 //-----------------------------funciones---------------------------------
+
+	
+
 
 	function reedUser(){
 		console.log("inicio validacion de usuario")
@@ -74,35 +99,36 @@ let status;
 		console.log( accesoUser );
 		localStorage.setItem("dataUser" , JSON.stringify(accesoUser));
 	};
-
+//----------------------------------------
+	
 	function calcu() {
 
 		console.log("inicia calcular");
-		let hotel = $("#nameHotel").val;
-		let precio = $("#precioHotel").val;
-		let simple = $("#simpleRoom").val;
-		let doble = $("#dobleRoom").val;
-		console.log(hotel + " " + precio + " " + simple + " " + doble );
-
+		hotel = $("#selectorHto").find(":selected").val();
+		console.log(hotel)
+		globalData.forEach((data) => {
+			if (data.nombreHotel == hotel) {
+				precio = data.precio;
+				ubicacion = data.locate;
+				Numero = data.Numberphone;
+				console.log( precio )
+			}
+		})
+		console.log("el hotel es : "+hotel+" y el precio es: "+precio);
+		simple = $("#simpleRoom").val();
+		doble = $("#dobleRoom").val();
 		if ( simple =! "" ) {
-			console.log(simple)
-			let valorSimple = simple * ( precio * 1.3 );
-			console.log("el valor de las simples es: " + valorSimple );
-			for (let i = 1; i <= simple ; i++){
-				console.log(i);
-				console.log(simple);
-				$("#escri").append( '<p>habitacion simple nro°'+ i +' pertenece <input type="text" class="form-control" placeholder="nombre de recidente" aria-label="nombre de recidente" aria-describedby="basic-addon1" ></p>');
-			};
-		};
-
+			valorSimple = simple * precio ;
+			$("#escri").append( "<p>las piesas simples son "+simple+"y acumulan un precio total de "+valorSimple+"</p>");
+		}
 		if ( doble =! "" ) {
-			let valorDoble = doble *  precio;
-			console.log("el valor de las dobles es: " + valorDoble );
-			for (let i = 0; i < doble ; i++) {
-				console.log(i);
-				$("#escri2").append = '<p>habitacion doble nro° D'+ i +' pertenece a  <input type="text" class="form-control" placeholder="nombre de recidentes" aria-label="nombre de recidentes" aria-describedby="basic-addon1" ></p>';
-			};
-		};
+			valorDoble = doble * (precio * 1.25);
+			$("#escri").append( "<p>las piesas dobles son "+doble+"y acumulan un precio total de "+valorDoble+"</p>");
+		}
+		let Preciofinal = valorDoble + valorSimple
+		$("#escri").append( "<p>el total de las habitaciones tiene un costo de "+Preciofinal+"</p>");
+		$("#escri").append( "<p>el hotel se encuentra en "+ ubicacion+" y su numero de contacto es "+Numero+"</p>");
+	
 	};
 	
 	function ingreso() {
@@ -119,15 +145,33 @@ let status;
 	function saveHotel() {
 
 
-		let nombreHotel;
-		let PrecioHotel;
-		let LocateHotel;
-		let NumeroTelHotel;
+		let nombreHotel = $("#nombreHotelCarga").val();
+		let PrecioHotel = $("#hotelPrice").val();
+		let LocateHotel = $("#locacionHotelCarga").val();
+		let NumeroTelHotel = $("#phoneHotel").val();
 
 		let datahotel = {
 			"nombreHotel" : nombreHotel,
 			"precio" : PrecioHotel,
 			"locate" : LocateHotel,
 			"NumberPhone" : NumeroTelHotel
-		}	
+			}
+
+		fetch("http://localhost:3000/hotles",{
+			method: 'POST',
+        	body: JSON.stringify({
+	
+        		"nombreHotel" : nombreHotel,
+				"precio" : PrecioHotel,
+				"locate" : LocateHotel,
+				"NumberPhone" : NumeroTelHotel,
+			})
+			/*
+			headers: {
+            	'Content-type': 'application/json; charset=UTF-8',
+        	},*/
+    	})
+    		.then((response) => response.json())
+    		.then((data) => console.log(data))
+
 	}

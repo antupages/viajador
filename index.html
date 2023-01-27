@@ -34,17 +34,17 @@
 
 	<div class="row">
 		<div class="col-8">
-			<select class="form-select" aria-label="Default select example">
-  				<option selected>Open this select menu</option>
-  				<div id="selectorHto"></div><!-- aca se escribe la lista de hoteles que viene del json  -->
+			<select id="selectorHto" class="form-select" aria-label="Default select example">
+  				
+  				<!-- aca se escribe la lista de hoteles que viene del json  -->
 			</select>
 			<div class="input-group mb-3">
 	  			<span class="input-group-text" id="basic-addon1"> Simples </span>
-	  			<input id="simpleRoom" type="number" class="form-control" placeholder="habitaciones simples" aria-label="habitaciones simples" aria-describedby="basic-addon1">
+	  			<input id="simpleRoom" type="text" class="form-control" placeholder="habitaciones simples" aria-label="habitaciones simples" aria-describedby="basic-addon1">
 			</div>
 			<div class="input-group mb-3">
 	  			<span class="input-group-text" id="basic-addon1"> Dobles </span>
-	  			<input id="dobleRoom" type="number" class="form-control" placeholder="habitaciones Dobles" aria-label="habitaciones Dobles" aria-describedby="basic-addon1">
+	  			<input id="dobleRoom" type="text" class="form-control" placeholder="habitaciones Dobles" aria-label="habitaciones Dobles" aria-describedby="basic-addon1">
 			</div>
 			<button class="btn btn-primary" id="calculate" type="submit" > Calular </button>
 		</div>
@@ -56,25 +56,25 @@
 	<div class="row" style="background-color:gray; padding: 10px;"><!--aca esta el panel solo admin -->
 		<div class="col-8">
 			<!--aca esta el formulario de carga para hoteles , cada hotel tiene como id nombre en valores precio, ubicacion y numero de tel-->
-
+			<h1>aca se puede cargar nuevos hoteles</h1>
 			<div class="mb-3"> <!--nombre hotel-->
     			<label for="nombreHotelCarga" class="form-label">Nombre del hotel</label>
     			<input type="text" class="form-control" id="nombreHotelCarga">
 			</div>
 			<div class="3mb-3"> <!--email hotel -->
-    			<label for="emailHotel" class="form-label">Correo del hotel </label>
-    			<input type="email" class="form-control" id="emailHotel">
+    			<label for="precio" class="form-label">locacion del hotel </label>
+    			<input type="text" class="form-control" id="locacionHotelCarga">
     		</div>
 			<div class="mb-3"> <!--nombre hotel-->
-    			<label for="phoneHotel" class="form-label">Correo electrónico</label>
-    			<input type="number" class="form-control" id="phoneHotel">
+    			<label for="phoneHotel" class="form-label">numero telefonico</label>
+    			<input type="text" class="form-control" id="phoneHotel">
 			</div>
 			<div class="mb-3"> <!--nombre hotel-->
     			<label for="hotelPrice" class="form-label">precio de habitacion</label>
     			<input type="number" class="form-control" id="hotelPrice" placeholder="el precio de las dobles es el simplple + 25%? ">
 			</div>
 
-
+			<button id="cargarhotelaJson">cargar hotel</button>
 		</div>
 		<div class="col-4" id="hotelAdminList">
 			<!--aca esta la lista de hoteles -->
