@@ -1,7 +1,11 @@
+/*
+
 .invisible{
-	/*display: none;*/
+	display: none !important;
 }
 
+
+*/
 .panelinvisible{ 
 	background-color: orange; 
 	padding: 5px; 

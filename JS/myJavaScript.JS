@@ -21,7 +21,7 @@ $(document).ready( function() {
 	$("#ingresar").on("click", ingreso );//hace vivible panel de acceso
 	$("#iUsu").on("click", reedUser );//valida si el usuraio es admin no valida realmente el usuario 
 	$("#calculate").on("click", calcu );//calcula el precio de las habitaciones 
-	$("#cargarhotelaJson").on("click", saveHotel );//guarda un hotel nuevo en json
+	//$("#cargarhotelaJson").on("click", saveHotel );//guarda un hotel nuevo en json
 
 	//aca recupera los datos del local para el acceso
 	let dataAcceso = JSON.parse( localStorage.getItem("dataUser"))
@@ -61,7 +61,11 @@ $(document).ready( function() {
 
 //-----------------------------funciones---------------------------------
 
-	
+	function ingreso() {
+		console.log("se muestra el acceso");
+		$("#tazaIngreso").remove(".invisible");
+
+	};	
 
 
 	function reedUser(){
@@ -86,6 +90,7 @@ $(document).ready( function() {
 		console.log("el usuario es del tipo:" + status);
 		console.log(usuario);
 		saveAccesUser();
+		$("#tazaIngreso").removeClass("invisible");
 
 	};
 
@@ -131,11 +136,7 @@ $(document).ready( function() {
 	
 	};
 	
-	function ingreso() {
-		console.log("se muestra el acceso");
-		$("#tazaIngreso").removeClass("invisible");
-
-	};
+	
 
 //solo admins 
 //cargar hotel para seleccionador , cada hotel tiene como id nombre en valores precio, ubicacion y numero de tel 
