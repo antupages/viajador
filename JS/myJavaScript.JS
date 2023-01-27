@@ -1,95 +1,131 @@
-console.log("pagina inciada")
+$(document).ready( function() {
+
 
 let hotel; 
 let precio; 
 let simple; 
 let doble; 
-
+let usuario = "";
+let usuarioactivo = "";
+let contraseña = "";
 let rooms;
-rooms = [];
+let status;
 
-function calcu() {
 
-	console.log("inicia calcular");
-	let hotel = document.getElementById("nameHotel").value;
-	let precio = document.getElementById("precioHotel").value;
-	let simple = document.getElementById("simpleRoom").value;
-	let doble = document.getElementById("dobleRoom").value;
-	console.log(hotel + " " + precio + " " + simple + " " + doble );
+	console.log("pagina inciada")
+	$("#ingresar").on("click", ingreso );//hace vivible panel de acceso
+	$("#iUsu").on("click", reedUser );//valida si el usuraio es admin no valida realmente el usuario 
+	$("#calculate").on("click", calcu );//calcula el precio de las habitaciones 
 
-	if ( simple =! "" ) {
-		console.log(simple)
-		let valorSimple = simple * ( precio * 1.3 );
-		console.log("el valor de las simples es: " + valorSimple );
-		//console.log(simple);
-		//escritura(simple);
-		for (let i = 1; i <= simple ; i++){
-			console.log(i);
-			console.log(simple);
-			document.getElementById("escri").innerHTML = '<p>habitacion simple nro°'+ i +' pertenece a  <input type="text" class="form-control" placeholder="nombre de recidente" aria-label="nombre de recidente" aria-describedby="basic-addon1" ></p>';
+	//aca recupera los datos del local para el acceso
+	let dataAcceso = JSON.parse( localStorage.getItem("dataUser"))
+	console.log(dataAcceso);
+
+	$("#leeUsu").val(dataAcceso.user);
+	$("#leeCont").val(dataAcceso.pass)
+
+
+	//fetch("https://drive.google.com/file/d/1KXMPQd7MT3G0t0xCueTN1Ud_d76FliCF/view?usp=share_link")
+ 	//	.then(response => response.json())
+  	//	.then(json => console.log(json));
+	//JSON.get("./json/data.json")
+
+
+});
+
+
+
+//-----------------------------funciones---------------------------------
+
+	function reedUser(){
+		console.log("inicio validacion de usuario")
+		usuario = $("#leeUsu").val();
+		contraseña = $("#leeCont").val();
+
+		if (usuario == "admin") {
+			if (contraseña == "1234") {
+				status = "admin";
+			}else{
+				console.log("contraseña invalida")
+				$("#leeCont").value = "";
+			}
+		}else{
+			status = "usuario"
+		};
+
+		if (status == "admin") {
+			$("panelAdmin").removeClass("invisible");
+		}
+		console.log("el usuario es del tipo:" + status);
+		console.log(usuario);
+		saveAccesUser();
+
+	};
+
+	function saveAccesUser() {
+
+		let accesoUser = {
+			user : usuario ,
+			pass : contraseña
+		};
+
+		console.log( accesoUser );
+		localStorage.setItem("dataUser" , JSON.stringify(accesoUser));
+	};
+
+	function calcu() {
+
+		console.log("inicia calcular");
+		let hotel = $("#nameHotel").val;
+		let precio = $("#precioHotel").val;
+		let simple = $("#simpleRoom").val;
+		let doble = $("#dobleRoom").val;
+		console.log(hotel + " " + precio + " " + simple + " " + doble );
+
+		if ( simple =! "" ) {
+			console.log(simple)
+			let valorSimple = simple * ( precio * 1.3 );
+			console.log("el valor de las simples es: " + valorSimple );
+			for (let i = 1; i <= simple ; i++){
+				console.log(i);
+				console.log(simple);
+				$("#escri").append( '<p>habitacion simple nro°'+ i +' pertenece <input type="text" class="form-control" placeholder="nombre de recidente" aria-label="nombre de recidente" aria-describedby="basic-addon1" ></p>');
+			};
+		};
+
+		if ( doble =! "" ) {
+			let valorDoble = doble *  precio;
+			console.log("el valor de las dobles es: " + valorDoble );
+			for (let i = 0; i < doble ; i++) {
+				console.log(i);
+				$("#escri2").append = '<p>habitacion doble nro° D'+ i +' pertenece a  <input type="text" class="form-control" placeholder="nombre de recidentes" aria-label="nombre de recidentes" aria-describedby="basic-addon1" ></p>';
+			};
 		};
 	};
-
-	if ( doble =! "" ) {
-		let valorDoble = doble *  precio;
-		console.log("el valor de las dobles es: " + valorDoble );
-		for (let i = 0; i < doble ; i++) {
-			console.log(i);
-			document.getElementById("escri2").innerHTML = '<p>habitacion doble nro° D'+ i +' pertenece a  <input type="text" class="form-control" placeholder="nombre de recidentes" aria-label="nombre de recidentes" aria-describedby="basic-addon1" ></p>';
-		};
-	};
-};
-
-
-
-
-
-
-
-
-
-
-
-/*
-function escritura (cantidad) {
-	for (let i = 0; i < cantidad ; i++) {
-		console.log(i);
+	
+	function ingreso() {
+		console.log("se muestra el acceso");
+		$("#tazaIngreso").removeClass("invisible");
 
 	};
-};
 
-*/
+//solo admins 
+//cargar hotel para seleccionador , cada hotel tiene como id nombre en valores precio, ubicacion y numero de tel 
 
+//guardar datos para json 
 
-
-
-
-/*for (let i = 0; i < 5 ; i++) {
-		console.log(i);
-};
-
-let hotel = document.getElementById("nameHotel").value
-console.log("el nombre del hotel es:" + hotel )
-
-let hotel = "";
-let precio = 0;
-let simple = 1;
-let doble = 1;
-let valorDoble = 1;
-let valorSimple = 1;
-*/
+	function saveHotel() {
 
 
-/*
-function sumaPrecios() {
-	if ( simple =! 0 ) {
-		let valorSimple = simple * ( precio * 1.3 );
-		console.log("el valor de las simples es: " + valorSimple );
-	};
-	if ( doble =! 0 ) {
-		let valorDoble = doble *  precio;
-		console.log("el valor de las dobles es: " + valorDoble );
-	};
-};
+		let nombreHotel;
+		let PrecioHotel;
+		let LocateHotel;
+		let NumeroTelHotel;
 
-*/
+		let datahotel = {
+			"nombreHotel" : nombreHotel,
+			"precio" : PrecioHotel,
+			"locate" : LocateHotel,
+			"NumberPhone" : NumeroTelHotel
+		}	
+	}
