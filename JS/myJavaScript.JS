@@ -25,10 +25,12 @@ let status;
 	$("#leeCont").val(dataAcceso.pass)
 
 
-	//fetch("https://drive.google.com/file/d/1KXMPQd7MT3G0t0xCueTN1Ud_d76FliCF/view?usp=share_link")
- 	//	.then(response => response.json())
-  	//	.then(json => console.log(json));
-	//JSON.get("./json/data.json")
+	fetch("./hotel.txt")
+ 		.then(res => res.JSON())
+ 		.then(JSON => console.log(res));
+ 			//response.json())
+  		//.then(json => console.log(json));
+	
 
 
 });

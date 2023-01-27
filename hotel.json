@@ -1,0 +1,20 @@
+[
+  {
+    "nombreHotel" : "dazzler",
+	"precio" : 150,
+	"locate" : "palermo",
+	"NumberPhone" : "4500-0000"
+  },
+  {
+    "nombreHotel" : "abasto",
+	"precio" : 120,
+	"locate" : "abasto",
+	"NumberPhone" : "4500-0001"
+  },
+  {
+    "nombreHotel" : "nh",
+	"precio" : 200,
+	"locate" : "centro",
+	"NumberPhone" : "4500-0003"
+  }
+]
